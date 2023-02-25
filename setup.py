@@ -29,7 +29,7 @@ setup(
   long_description_content_type="text/markdown",
   long_description=long_description,
   license="MIT",
-  url="https://github.com/eigenphi/PyGenphi",
+  url="https://github.com/eigenphi/eigenapi-client",
   packages=['eigenapi_client','eigenapi_client/endpoints'],
   install_requires=[
     "setuptools >= 60.8.3",
