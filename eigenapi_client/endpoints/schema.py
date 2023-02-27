@@ -64,6 +64,8 @@ class Transaction(object):
         self.transactionToAddress: str = transaction['transactionToAddress']
         self.type: str = transaction['type']
         self.tokens = []
+        self.id = self.blockNumber * 10000 + self.transactionIndex
+
         if 'tokens' in transaction:
             for token in transaction['tokens']:
                 self.tokens.append(Token(token ))
@@ -87,6 +89,9 @@ class Transaction(object):
         if 'liquidationDetails' in transaction:
             for liquidationDetail in transaction['liquidationDetails']:
                 self.liquidationDetails.append(LiquidationDetail(liquidationDetail))
+
+    def get_id(self) -> int:
+        return self.id
 
 
 class LatestBlock(object):

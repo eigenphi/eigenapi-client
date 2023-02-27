@@ -9,7 +9,7 @@ class PoolSandwichedApi(object):
         self.host = "https://" + host
         self.endpoint = 'pool/sandwiched'
 
-    def do_request(self, chain: str, page: int = 0, limit: int = 100):
+    def do_request(self, chain: str, duration: int = 30, page: int = 0, limit: int = 100):
         url = f"{self.host}/{self.endpoint}?chain={chain}"
         params = {
             'apikey': self.apikey
@@ -20,6 +20,9 @@ class PoolSandwichedApi(object):
 
         if limit is not None:
             params['limit'] = limit
+
+        if duration is not None:
+            params['duration'] = duration
 
         headers = {
             'Content-Type': 'application/json'

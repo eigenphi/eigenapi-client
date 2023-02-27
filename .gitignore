@@ -1,3 +1,5 @@
 .idea
 eigenapi_client.egg-info
 dist
+eigenapi_client/__pycache__
+eigenapi_client/endpoints/__pycache__
