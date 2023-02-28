@@ -34,6 +34,7 @@ class LivestreamSubscription(object):
         self._local_subscription_cache = cache
         self.ssl_context = ssl.create_default_context()
         self.ssl_context.load_verify_locations(certifi.where())
+        self.quotaInterval = 15
 
     def __auto_remove_duplicate_transactions__(self, transaction: Transaction) -> Transaction or None:
         if not self._local_subscription_cache.__contains__(transaction):

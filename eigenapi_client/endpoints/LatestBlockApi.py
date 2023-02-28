@@ -9,6 +9,7 @@ class LatestBlockApi(object):
         self.apikey = apikey
         self.host = "https://" + host
         self.endpoint = 'block/latest'
+        self.quotaInterval = 1
 
     def do_request(self, chain: str) -> LatestBlock:
         url = f"{self.host}/{self.endpoint}?chain={chain}"
