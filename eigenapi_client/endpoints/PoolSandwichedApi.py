@@ -8,6 +8,7 @@ class PoolSandwichedApi(object):
         self.apikey = apikey
         self.host = "https://" + host
         self.endpoint = 'pool/sandwiched'
+        self.quotaInterval = 5
 
     def do_request(self, chain: str, duration: int = 30, page: int = 0, limit: int = 100):
         url = f"{self.host}/{self.endpoint}?chain={chain}"

@@ -7,27 +7,23 @@ from eigenapi_client.endpoints.schema import Transaction
 
 
 class TransactionApi(object):
-    def __init__(self, apikey: str, host: str = 'api.eigenapi.io'):
+    def __init__(self, apikey: str, host: str = 'api.eigenapi.io', debug: bool = False):
         self.apikey = apikey
         self.host = "https://" + host
         self.endpoint = 'transactions'
-        self.latestBlockApi = LatestBlockApi(apikey=apikey, host=host)
+        self.quotaInterval = 10
+        self.debug = debug
 
     def do_request(self, chain: str, filter_type: str = None, start: int = None, end: int = None, limit: int = 100):
         url = f"{self.host}/{self.endpoint}?chain={chain}"
         params = {
             'apikey': self.apikey
         }
-
-        next_end_time = self.latestBlockApi.do_request(chain).blockTimestamp
-
         if end is not None:
-            next_end_time = end
+            params['end_time'] = end
 
         if start is not None:
             params['start_time'] = start
-        else:
-            params['start_time'] = next_end_time - 60 * 60
 
         if limit is not None:
             params['limit'] = limit
@@ -35,20 +31,19 @@ class TransactionApi(object):
         if filter_type is not None:
             params['type'] = filter_type
 
-        params['end_time'] = next_end_time
-        result = self.__query_txs__(url, params=params)
-        while len(result) > 0:
-            next_end_time = result[-1].blockTimestamp
-            params['end_time'] = next_end_time
-            yield result
-            result = self.__query_txs__(url, params=params)
+        if params['end_time'] is not None and params['start_time'] is not None and \
+                params['end_time'] == params['start_time']:
+            return []
+
+        return self.__query_txs__(url, params=params)
 
     def __query_txs__(self, url: str, params: dict = None) -> list[Transaction]:
         headers = {
             'Content-Type': 'application/json'
         }
         result = []
-        print(url, params)
+        if self.debug:
+            print(url, params)
         response = requests.request("GET", url, headers=headers, params=params)
         response_result = response.json()
 

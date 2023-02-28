@@ -5,6 +5,7 @@ class StatusApi(object):
     def __init__(self, host: str = 'api.eigenapi.io'):
         self.host = "https://" + host
         self.endpoint = 'status'
+        self.quotaInterval = 1
 
     def do_request(self):
         url = f"{self.host}/{self.endpoint}"
